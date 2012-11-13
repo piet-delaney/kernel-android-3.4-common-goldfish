@@ -1,0 +1,1 @@
+$TOP/external/qemu/distrib/build-kernel.sh --arch=mips

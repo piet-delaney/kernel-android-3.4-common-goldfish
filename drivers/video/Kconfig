@@ -71,6 +71,7 @@ menuconfig FB
 
 config FB_GOLDFISH
         tristate "Goldfish Framebuffer"
+	default n
         depends on FB
         select FB_CFB_FILLRECT
         select FB_CFB_COPYAREA
