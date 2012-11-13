@@ -28,26 +28,31 @@
 #include <asm/io.h>
 #include <asm/irq_cpu.h>
 #include <asm/mach-goldfish/irq.h>
+#include <asm/setup.h>
 
 static void __iomem *goldfish_interrupt;
 
-void goldfish_mask_irq(unsigned int irq)
+void goldfish_mask_irq(struct irq_data *d)
 {
+	unsigned int irq = d->irq;
+
 	writel(irq-GOLDFISH_IRQ_BASE,
 	       goldfish_interrupt + GOLDFISH_INTERRUPT_DISABLE);
 }
 
-void goldfish_unmask_irq(unsigned int irq)
+void goldfish_unmask_irq(struct irq_data *d)
 {
+	unsigned int irq = d->irq;
+
 	writel(irq-GOLDFISH_IRQ_BASE,
 	       goldfish_interrupt + GOLDFISH_INTERRUPT_ENABLE);
 }
 
 static struct irq_chip goldfish_irq_chip = {
 	.name	= "goldfish",
-	.mask	= goldfish_mask_irq,
-	.mask_ack = goldfish_mask_irq,
-	.unmask = goldfish_unmask_irq,
+	.irq_mask	= goldfish_mask_irq,
+	.irq_mask_ack = goldfish_mask_irq,
+	.irq_unmask = goldfish_unmask_irq,
 };
 
 void goldfish_init_irq(void)
@@ -61,8 +66,8 @@ void goldfish_init_irq(void)
 	writel(1, goldfish_interrupt + GOLDFISH_INTERRUPT_DISABLE_ALL);
 
 	for (i = GOLDFISH_IRQ_BASE; i < GOLDFISH_IRQ_BASE+32; i++) {
-		set_irq_chip(i, &goldfish_irq_chip);
-		set_irq_handler(i, handle_level_irq);
+		irq_set_chip_and_handler(i, &goldfish_irq_chip, 
+							handle_level_irq);
 #if 0
 		set_irq_flags(i, IRQF_VALID | IRQF_PROBE);
 #endif
@@ -100,7 +105,9 @@ asmlinkage void plat_irq_dispatch(void)
 
 static struct irqaction cascade = {
 	.handler	= no_action,
+#if 0
 	.mask		= CPU_MASK_NONE,
+#endif
 	.name		= "cascade",
 };
 

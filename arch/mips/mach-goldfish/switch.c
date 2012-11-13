@@ -16,11 +16,14 @@
 #include <linux/err.h>
 #include <linux/interrupt.h>
 #include <linux/irq.h>
+#include <linux/stat.h>
+#include <linux/slab.h>
+#include <linux/module.h>
 
 #include <mach/timer.h>
 #include <mach/hardware.h>
 #include <asm/io.h>
-#include <asm/mach/time.h>
+#include <asm/mach-goldfish/time.h>
 
 #include <linux/platform_device.h>
 

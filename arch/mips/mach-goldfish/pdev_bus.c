@@ -12,12 +12,12 @@
 ** GNU General Public License for more details.
 **
 */
-
 #include <linux/kernel.h>
 #include <linux/init.h>
 #include <linux/interrupt.h>
 #include <linux/irq.h>
 #include <linux/platform_device.h>
+#include <linux/slab.h>
 
 #include <mach/hardware.h>
 #include <asm/io.h>

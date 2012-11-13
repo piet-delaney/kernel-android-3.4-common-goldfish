@@ -74,9 +74,13 @@ void plat_time_init(void)
  */
 void save_time_delta(struct timespec *delta, struct timespec *rtc)
 {
+	struct timespec adjust;
+
+	adjust = current_kernel_time();
+
 	set_normalized_timespec(delta,
-				xtime.tv_sec - rtc->tv_sec,
-				xtime.tv_nsec - rtc->tv_nsec);
+				adjust.tv_sec - rtc->tv_sec,
+				adjust.tv_nsec - rtc->tv_nsec);
 }
 EXPORT_SYMBOL(save_time_delta);
 

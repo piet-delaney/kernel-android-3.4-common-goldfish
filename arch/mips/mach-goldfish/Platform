@@ -1,6 +1,7 @@
 #
 # Goldfish
 #
+core-$(CONFIG_MIPS_GOLDFISH)    += arch/mips/mach-goldfish/
 cflags-$(CONFIG_MIPS_GOLDFISH)  += -I$(srctree)/arch/mips/include/asm/mach-goldfish
 load-$(CONFIG_MIPS_GOLDFISH)    += 0xffffffff80010000
 all-$(CONFIG_MIPS_GOLDFISH)     := vmlinux.bin
